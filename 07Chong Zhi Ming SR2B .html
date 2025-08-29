@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>冰岛秘境 | 北极光之国</title>
+    <style>
+        /* 全局样式 */
+        :root {
+            --glacier-blue: #a0d2eb;
+            --volcanic-black: #2d3436;
+            --aurora-green: #00cec9;
+            --lava-red: #e17055;
+        }
+        
+        body {
+            font-family: 'Montserrat', 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+            color: white;
+        }
+        
+        /* 动态极光背景 */
+        .aurora-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            overflow: hidden;
+        }
+        
+        .aurora {
+            position: absolute;
+            height: 100%;
+            width: 200%;
+            background: linear-gradient(
+                90deg,
+                rgba(0, 206, 201, 0) 0%,
+                rgba(0, 206, 201, 0.4) 50%,
+                rgba(0, 206, 201, 0) 100%
+            );
+            animation: aurora-flow 15s infinite;
+            filter: blur(60px);
+        }
+        
+        @keyframes aurora-flow {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            100% { transform: translateX(0%) rotate(2deg); }
+        }
+        
+        /* 导航栏 */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem 5rem;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, #fff 20%, var(--aurora-green) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--aurora-green);
+        }
+        
+        /* 英雄区域 */
+        .hero {
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20%;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff 20%, var(--glacier-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            line-height: 2;
+            margin-bottom: 3rem;
+        }
+        
+        .explore-btn {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 1rem 3rem;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .explore-btn:hover {
+            background: white;
+            color: var(--volcanic-black);
+        }
+        
+        /* 内容区域 */
+        .section {
+            padding: 8rem 15%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            margin: 5rem 0;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--glacier-blue);
+        }
+        
+        /* 冰川波浪分隔线 */
+        .wave-divider {
+            position: relative;
+            height: 150px;
+            overflow: hidden;
+        }
+        
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%23a0d2eb" opacity=".25"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%23a0d2eb" opacity=".5"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%23a0d2eb"/></svg>');
+            background-size: cover;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+                flex-direction: column;
+            }
+            
+            .hero {
+                padding: 0 10%;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+    <!-- 动态极光背景 -->
+    <div class="aurora-bg">
+        <div class="aurora" style="top: 20%; opacity: 0.8;"></div>
+        <div class="aurora" style="top: 40%; opacity: 0.6; animation-delay: -5s;"></div>
+        <div class="aurora" style="top: 60%; opacity: 0.4; animation-delay: -10s;"></div>
+    </div>
+    
+    <!-- 导航栏 -->
+    <nav>
+        <div class="logo">ICELAND</div>
+        <div class="nav-links">
+            <a href="#history">历史</a>
+            <a href="#culture">文化</a>
+            <a href="#geography">地理</a>
+            <a href="#travel">旅游</a>
+            <a href="#customs">习俗</a>
+        </div>
+    </nav>
+    
+    <!-- 主标题区域 -->
+    <section class="hero">
+        <h1>探索冰岛秘境</h1>
+        <p>在这片冰与火的国度，极光为幕，火山为伴，冰川为镜，开启你的北欧奇幻之旅</p>
+        <button class="explore-btn">开始探索</button>
+    </section>
+    
+    <!-- 冰川波浪分隔线 -->
+    <div class="wave-divider">
+        <div class="wave"></div>
+    </div>
+    
+    <!-- 历史部分 -->
+    <section id="history" class="section">
+        <h2 class="section-title">冰岛历史</h2>
+        <p>冰岛位于北大西洋，是欧洲最北的国家之一。冰岛的历史源远流长，其独特的地理环境塑造了居民的生活方式和文化传统。冰岛最早的定居者是来自挪威和凯尔特地区的维京人。根据历史记载，公元874年，挪威维京人埃里克·雷德（Ingólfur Arnarson）在今天的雷克雅未克地区建立了第一个永久定居点，这被认为是冰岛历史的开端。在接下来的几十年里，大量来自挪威的移民以及一些来自苏格兰和爱尔兰的凯尔特奴隶陆续到来，他们在冰岛的沿海地区建立了小型农庄，逐渐形成了以家族和氏族为基础的社会结构。</p>
+
+ <p>公元930年，冰岛建立了世界上最早的议会之一——阿尔辛议会（Althing）。阿尔辛议会是冰岛政治和法律的核心机构，负责制定法律、解决纠纷和管理社会事务。当时的冰岛实行“自由农民共和国”的制度，没有国王，社会自治程度较高。议会的建立不仅体现了冰岛人民的自治精神，也为后世的民主制度提供了早期范例。与此同时，冰岛文学和文化开始发展，尤其是萨迦文学的兴起，它们记录了维京定居者的冒险故事、家族纷争和社会生活，成为世界文学史上独特的文化遗产。</p>
+
+ <p>13世纪，冰岛由于内部权力斗争以及外部威胁，逐渐被纳入挪威王国的统治之下。1380年，随着挪威王室与丹麦王室合并，冰岛也随之成为丹麦的领地。此后，冰岛经历了一个漫长而艰难的时期，极端气候、火山喷发、饥荒和瘟疫频繁发生，导致人口大幅下降。例如，1783年至1784年的拉基火山喷发造成了约一五分之一人口死亡。尽管如此，冰岛人民仍然坚持自己的语言、文化和法律传统，维持社区的运作。</p>
+
+ <p>19世纪，欧洲的民族主义浪潮传入冰岛，人们开始追求独立和民族认同。1874年，丹麦国王给予冰岛宪法，赋予有限自治权，并允许冰岛成立自己的议会进行内政管理。1904年，冰岛获得内政自主管理权，成为名义上的自治王国。经过长期的政治努力和文化复兴，冰岛在1918年正式成为冰岛王国，名义上仍属于丹麦王国，但在外交和部分事务上保持独立。</p>
+
+ <p>二战期间，冰岛的战略地位极其重要。1940年，英国为防止德国占领冰岛而进行军事控制，随后美国接管了冰岛的防御任务，以保护北大西洋航线。战争也加速了冰岛的现代化进程，尤其是交通、通信和工业的发展。1944年6月17日，冰岛在战争期间正式宣布完全独立，成立冰岛共和国，结束了与丹麦长达几百年的政治联系。从此，冰岛成为主权国家，实行民主政治制度，并加入北约，但保持无常备军的政策，依靠民兵和国际合作维护安全。</p>
+
+ <p>进入现代，冰岛充分利用其丰富的自然资源，包括地热能和水力发电，发展可持续能源。冰岛经济经历了渔业主导的时期、金融扩张到全球化经济转型的历程，同时保持了独特的文化传统。萨迦文学、冰岛语以及民主议会制度成为国家自豪的象征。冰岛人民在极端自然环境下展现出的坚韧和智慧，不仅塑造了国家历史，也影响了冰岛现代社会的发展。</p>
+
+ <p>总的来说，冰岛历史是一段充满挑战与奋斗的历程。从早期维京定居者到现代独立共和国，冰岛人民始终保持着自治精神、文化传承和创新能力。无论是阿尔辛议会的建立、萨迦文学的流传，还是现代社会的能源利用和经济发展，冰岛历史都展示了一个小国如何在自然环境严苛、地理孤立的条件下创造出独特而辉煌的文明。</p>
+冰岛历史独特之处在于它的自然环境和地理条件塑造了居民的文化与社会制度。冰岛人民凭借坚韧与智慧，在极端自然环境下建立了独特的文学、法律和民主传统。今天，冰岛不仅以其火山、冰川和地热资源闻名，还保留了丰富的历史遗产，如萨迦文学和阿尔辛议会的历史纪念。</p>
+    </section>
+    
+    <!-- 文化部分 -->
+    <section id="culture" class="section">
+        <h2 class="section-title">冰岛文化</h2>
+        <p>冰岛文化独特且丰富，深受自然环境、历史传统和北欧影响。由于冰岛地处偏远、人口稀少，居民长期依赖自然资源，形成了与自然密切相关的生活方式和文化特色。冰岛人民崇尚独立、自主和坚韧，这种精神体现在他们的文学、音乐和艺术中。</p>
+
+
+<p>1. 文学与萨迦传统<br />
+<p>冰岛文学以萨迦（Saga）最为著名，这些史诗般的故事讲述了维京定居者的探险、家族纷争和社会生活。萨迦不仅是文学作品，也是历史记录，反映了冰岛早期社会的法律、习俗和价值观。现代冰岛作家也延续了这种传统，在小说、诗歌和戏剧中表达冰岛独特的社会情感和文化认同。</p>
+
+
+<p>2. 音乐与艺术<br />
+<p>冰岛的音乐文化非常多样，从传统民歌到现代流行音乐都有代表。冰岛艺术家擅长将自然景观与人文情感结合，通过绘画、雕塑和设计作品展示冰岛的美学理念。雷克雅未克每年举办多种文化节，包括音乐节、电影节和艺术展，为本地和国际艺术交流提供平台。</p>
+
+
+<p>3. 节日与传统<br />
+<p>冰岛人民重视传统节日和庆典，如冰岛国庆日（6月17日）和维京节。节日期间，人们穿上传统服饰、参与游行和庆祝活动，以表达对历史和民族文化的认同。除此之外，冰岛还有独特的民间传说，如冰岛妖精和精灵故事，这些传说融入日常生活，也反映了冰岛人与自然、神秘世界的关系。</p>
+
+
+<p>4. 语言与教育<br />
+<p>冰岛语是冰岛的官方语言，保持了古北欧语言的特征。尽管现代社会接触英语和其他语言，但冰岛人民高度重视母语传承，学校教育和文学创作都以冰岛语为基础。语言不仅是交流工具，也承载了文化记忆和民族认同。</p>
+
+
+<p>5. 生活方式与环保意识<br />
+<p>冰岛文化强调人与自然的和谐相处。居民日常生活注重可持续发展，如利用地热和水力能源，减少环境污染。冰岛人喜欢户外活动，如徒步、骑马、滑雪和温泉疗养，这种生活方式不仅体现健康理念，也延续了与自然紧密联系的文化传统。</p>
+
+
+<p>总的来说，冰岛文化融合了历史传统、文学艺术、民间信仰与现代生活方式，形成了独特而鲜明的文化特质。无论是萨迦文学、节庆活动，还是对自然环境的尊重，冰岛文化都展示了小国人民的坚韧、创造力和对美好生活的追求。</p>
+    </section>
+    
+    <!-- 地理部分 -->
+    <section id="geography" class="section">
+        <h2 class="section-title">冰岛地理</h2>
+        <p>冰岛位于北大西洋，地处欧洲与北美板块交界处，因此拥有丰富的火山和地热资源，常被称为“火与冰之岛”。冰岛总面积约10万平方公里，人口稀少，主要集中在首都雷克雅未克及其周边地区。冰岛的地形独特多样，既有覆盖广阔的冰川，也有活跃的火山和熔岩原野。瓦特纳冰川（Vatnajökull）是欧洲最大的冰川，覆盖了冰岛约8%的土地面积，其冰川融水形成了丰富的河流和湖泊，为生态系统提供了重要水源。活火山如艾雅法拉火山（Eyjafjallajökull）、赫克拉火山（Hekla）和卡特拉火山（Katla）常年活跃，不仅塑造了独特的地貌，也为科学研究和旅游提供了机会。</p>
+
+
+<p>冰岛地热资源丰富，地热能广泛应用于供暖、发电和温泉浴。蓝湖温泉（Blue Lagoon）是冰岛最著名的地热温泉之一，其温暖的矿物泉水和周围熔岩景观吸引了大量游客。除了温泉，冰岛还有众多湖泊和瀑布，如米湖（Mývatn）、辛格韦德利国家公园（Þingvellir）以及古佛斯瀑布（Gullfoss），这些自然景观不仅美丽壮观，也是重要的生态保护区。</p>
+
+
+<p>冰岛属于亚北极气候，冬季寒冷且昼夜差异明显，夏季温和，日照时间较长。沿海地区受北大西洋暖流影响，气候相对温暖，而内陆高地和冰川地区则更加寒冷。冰岛的气候变化多端，风大、雨雪频繁，也塑造了居民坚韧适应的生活方式。地理位置偏北，使得冰岛在夏季可以欣赏到午夜太阳，而冬季则有极光出现，为自然景观增添独特魅力。</p>
+
+
+<p>冰岛的地理环境不仅造就了丰富的自然资源，也深刻影响了居民的生活、经济和文化。火山、冰川、温泉、湖泊和瀑布共同组成了冰岛独特的自然景观，使其成为世界上最具吸引力的旅游目的地之一。同时，这片土地也培养了冰岛人民与自然和谐共处、尊重环境的生活态度。</p>
+
+<p>冰岛的地质活动频繁，地热和火山现象形成了众多地热谷、间歇泉和温泉池。盖歇尔间歇泉（Geysir）是最著名的间歇泉之一，每隔数分钟喷发一次高达数十米的水柱，显示了冰岛地壳的活跃性。此外，冰岛火山喷发形成了熔岩洞、火山口湖和热泥池，为地质学研究提供了重要场所。</p>
+
+<p>冰岛地形多样，造就了丰富的生态环境。冰川融水流入河流和湖泊，为水生生物提供栖息地，也支撑了农业和水力发电。冰岛的气候虽寒冷，但因洋流调节，沿海地区植物生长仍然旺盛。草地、苔原和沼泽地广泛分布，为羊群放牧和野生动物栖息提供了条件。</p>
+
+<p>此外，冰岛独特的地理环境还造就了丰富的自然奇观，如地下熔岩洞、火山口湖、冰川湖和瀑布群。例如，黛提瀑布（Dettifoss）被认为是欧洲最强水量的瀑布，其轰鸣声和水雾景观令人震撼。冰岛地理的多样性，使游客在短途旅行中就能体验到火山、冰川、瀑布、湖泊和海岸等多种景观的变化。</p>
+
+<p>总的来说，冰岛的地理环境独一无二，火山与冰川交织、温泉与瀑布共存、峡湾与熔岩原野相连。丰富的自然资源不仅造就了壮丽的景观，也深刻影响了冰岛人的生活方式、文化习俗和经济活动，使这片“火与冰之岛”成为全球游客向往的独特目的地。</p>
+    </section>
+    
+    <!-- 旅游部分 -->
+    <section id="travel" class="section">
+        <h2 class="section-title">冰岛旅游</h2>
+        <p>冰岛是北欧最受欢迎的旅游目的地之一，以壮丽的自然景观、独特的地质奇观和丰富的文化遗产闻名于世。冰岛的旅游资源非常丰富，无论是喜欢冒险的游客，还是追求宁静自然的人，都能在这里找到理想的旅行体验。</p>
+
+<p>首先，冰岛以其独特的地质景观吸引了大量游客。蓝湖温泉（Blue Lagoon）是冰岛最著名的地热温泉之一，游客可以在温暖的矿物泉水中放松身心，同时欣赏周围的火山岩和蒸汽缭绕的景象。冰岛还有壮观的冰川，如瓦特纳冰川（Vatnajökull），游客可以参加冰川徒步或冰洞探险，亲身感受冰川的壮丽与神秘。冰岛的火山景观同样独特，艾雅法拉火山（Eyjafjallajökull）曾因喷发而闻名全球，游客可以参观火山口和熔岩地形，了解冰岛火山活动的历史与现象。</p>
+
+<p>其次，冰岛拥有许多美丽的瀑布和湖泊。黄金圈（Golden Circle）旅游线路是最经典的选择，包括辛格韦德利国家公园（Þingvellir National Park）、古佛斯瀑布（Gullfoss）和盖歇尔间歇泉（Geysir）。这里不仅可以欣赏壮观的自然景观，还可以了解冰岛早期议会阿尔辛的历史，感受自然与文化的融合。此外，塞里雅兰瀑布（Seljalandsfoss）和斯科加瀑布（Skógafoss）是拍照爱好者的热门景点，游客可以走到瀑布背后，体验瀑布水雾带来的奇妙感受。</p>
+
+<p>冰岛也是观赏极光的理想地点。每年的九月至次年四月，天空常常出现绿色、紫色或粉色的极光，为游客带来梦幻般的视觉体验。北部的阿克雷里（Akureyri）和偏远的乡村地区，是观赏极光的热门选择，因为远离城市灯光，天空更加清晰。</p>
+
+<p>除了自然景观，冰岛的文化体验也十分丰富。游客可以参观雷克雅未克（Reykjavík）首都的博物馆、教堂和艺术中心，了解冰岛的历史、文学和现代艺术。冰岛的民俗节日，如冰岛国庆日和维京节，也为游客提供了体验当地传统文化的机会。此外，冰岛的美食也不容错过，传统菜肴如羊肉汤、腌鱼和冰岛特色甜点，为旅途增添独特风味。</p>
+
+<p>对于喜欢户外活动的游客，冰岛提供丰富的选择，如徒步、骑马、钓鱼、皮划艇、观鲸等。冰岛地广人稀，自然环境保护良好，使得游客能够与大自然近距离接触，同时保持安全和舒适的体验。无论是夏季的午夜太阳，还是冬季的雪景和极光，冰岛都能带给游客独一无二的旅行体验。</p>
+
+<p>总的来说，冰岛是一个兼具自然奇观与文化魅力的旅游胜地。这里有壮丽的冰川、火山、瀑布和温泉，也有深厚的历史文化和现代艺术氛围。无论是探险、放松，还是摄影和文化体验，冰岛都能满足各种旅游需求，让每一位游客留下难忘的回忆。</p>
+    </section>
+    
+    <!-- 习俗部分 -->
+    <section id="customs" class="section">
+        <h2 class="section-title">冰岛习俗</h2>
+        <p>冰岛的习俗深受自然环境、历史文化和北欧传统影响，体现了居民对家庭、社区和自然的重视。冰岛重要节日包括冰岛国庆日（6月17日）、圣诞节和维京节。节日期间，人们会穿上传统服饰、参与游行和各种庆祝活动，还会举办音乐表演、舞蹈和手工艺展示，以表达对历史和民族文化的认同。这些节日不仅是庆祝的机会，也帮助年轻一代了解和继承传统文化。</p>
+
+ <p>冰岛传统饮食以鱼类、羊肉和乳制品为主，反映了居民对自然资源的利用和对环境的适应。特色美食包括羊肉汤（Kjötsúpa）、腌鱼（Harðfiskur）、鱼干以及冰岛特色甜点。在寒冷的气候条件下，人们注重食物保存和营养，这也促使冰岛饮食文化形成了独特风格。现代冰岛人虽然也会接受国际饮食文化的影响，但传统食物仍在节日和家庭餐桌上占据重要地位。</p>
+
+ <p>冰岛民间流传许多妖精、精灵和火山神话故事，这些传说被融入日常生活。例如，在建房或开垦农田时，人们会注意避免破坏被认为是精灵居住的地方。这样的信仰体现了冰岛人对自然的尊重和对神秘力量的敬畏，同时也反映了人与环境的和谐相处理念。许多故事和传说通过口述和文学形式传承，成为冰岛文化的重要组成部分。</p>
+
+ <p>冰岛人非常重视家庭、邻里关系和个人独立。由于人口稀少，社区凝聚力强，互助精神浓厚。居民喜欢参与户外活动，如徒步、骑马、滑雪和温泉疗养，这些活动不仅是休闲方式，也强化了人与自然的联系。冰岛人讲究健康的生活方式，注重运动和自然疗养，这种生活习惯延续了古代维京人的坚韧精神和与自然共生的理念。</p>
+
+ <p>此外，冰岛习俗中强调环保与可持续发展。居民广泛使用地热和水力能源，减少对化石燃料的依赖，注重垃圾分类、保护自然景观和野生动物。学校和社区教育也强调环保意识，让下一代从小培养对环境的责任感。这种尊重自然、与环境和谐共处的习俗，不仅是冰岛文化的一部分，也成为现代冰岛社会价值观的重要体现。</p>
+
+ <p>总的来说，冰岛的习俗融合了节庆活动、饮食文化、民间传说、生活方式与环保理念，展现了冰岛人民独特的生活智慧、坚韧精神和对自然的热爱。这些习俗不仅丰富了冰岛的文化内涵，也让游客能够更深入地理解这个“火与冰之国”的独特魅力。</p>
+    </section>
+    
+    <script>
+        // 交互效果
+        document.querySelector('.explore-btn').addEventListener('click', () => {
+            document.querySelector('#history').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        });
+        
+        // 动态极光效果增强
+        const auroras = document.querySelectorAll('.aurora');
+        auroras.forEach(aurora => {
+            aurora.style.left = `${Math.random() * 100}%`;
+            aurora.style.width = `${150 + Math.random() * 100}%`;
+        });
+    </script>
+
+<style>
+    /* 下雪特效CSS */
+    .snow-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1000;
+        overflow: hidden;
+    }
+    
+    .snowflake {
+        position: absolute;
+        background: white;
+        border-radius: 50%;
+        filter: blur(1px);
+        animation: fall linear infinite;
+    }
+    
+    /* 六种雪花形状 */
+    .snowflake.type1 { opacity: 0.8; }
+    .snowflake.type2 { opacity: 0.6; filter: blur(0.5px); }
+    .snowflake.type3 { opacity: 0.4; filter: blur(1.5px); }
+    .snowflake.type4::after {
+        content: "❄";
+        position: absolute;
+        font-size: 1.2em;
+        transform: translate(-50%, -50%);
+    }
+    .snowflake.type5::after {
+        content: "❅";
+        position: absolute;
+        font-size: 1em;
+        transform: translate(-50%, -50%);
+    }
+    .snowflake.type6::after {
+        content: "•";
+        position: absolute;
+        font-size: 0.8em;
+        transform: translate(-50%, -50%);
+    }
+    
+    @keyframes fall {
+        0% {
+            transform: translateY(-10px) translateX(0) rotate(0deg);
+        }
+        100% {
+            transform: translateY(calc(100vh + 10px)) translateX(20px) rotate(360deg);
+        }
+    }
+</style>
+
+<div class="snow-container" id="snow-container"></div>
+
+<script>
+    // 下雪特效JS
+    function createSnow() {
+        const container = document.getElementById('snow-container');
+        const snowflakeCount = Math.min(100, window.innerWidth / 5);
+        
+        // 清空现有雪花
+        container.innerHTML = '';
+        
+        for (let i = 0; i < snowflakeCount; i++) {
+            const flake = document.createElement('div');
+            const type = Math.floor(Math.random() * 6) + 1;
+            const size = Math.random() * 5 + 3;
+            
+            flake.className = `snowflake type${type}`;
+            flake.style.cssText = `
+                left: ${Math.random() * 100}vw;
+                top: -${size}px;
+                width: ${size}px;
+                height: ${size}px;
+                animation-duration: ${Math.random() * 10 + 5}s;
+                animation-delay: ${Math.random() * 5}s;
+                opacity: ${Math.random() * 0.7 + 0.3};
+            `;
+            
+            // 随机水平飘动幅度
+            if (Math.random() > 0.5) {
+                flake.style.animationName = 'fall, sway';
+                flake.style.animationTimingFunction = 'linear, ease-in-out';
+                flake.style.animationDuration = `${Math.random() * 10 + 5}s, ${Math.random() * 3 + 2}s`;
+            }
+            
+            container.appendChild(flake);
+        }
+    }
+    
+    // 添加水平飘动动画
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes sway {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(${Math.random() > 0.5 ? '-' : ''}${Math.random() * 50 + 20}px); }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // 初始化雪花
+    window.addEventListener('load', createSnow);
+    window.addEventListener('resize', createSnow);
+</script>
+
+<section class="photo-gallery">
+    <h2 class="section-title">冰岛视觉盛宴</h2>
+    <div class="photo-grid">
+        <!-- 照片1 - 极光 -->
+        <div class="photo-card">
+            <img src="aurora.jpg" alt="北极光">
+            <div class="photo-overlay">
+                <p>极光</p>
+            </div>
+        </div>
+        
+        <!-- 照片2 - 冰岛 -->
+        <div class="photo-card">
+            <img src="culture.jpg" alt="冰川湖">
+            <div class="photo-overlay">
+                <p>文化</p>
+            </div>
+        </div>
+        
+        <!-- 照片3 - 黑沙滩 -->
+        <div class="photo-card">
+            <img src="waterfall.jpg" alt="黑沙滩">
+            <div class="photo-overlay">
+                <p>雷尼斯黑沙滩</p>
+            </div>
+        </div>
+        
+        <!-- 照片4 - 城市 -->
+        <div class="photo-card">
+            <img src="building.jpg" alt="雷克雅未克">
+            <div class="photo-overlay">
+                <p>雷克雅未克大教堂</p>
+            </div>
+        </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* 照片网格样式 - 新增 */
+    .photo-gallery {
+        padding: 80px 5%;
+        background: rgba(0, 0, 0, 0.7);
+        margin: 50px 0;
+        position: relative;
+        z-index: 10;
+    }
+    
+    .photo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 25px;
+        margin-top: 40px;
+    }
+    
+    .photo-card {
+        position: relative;
+        aspect-ratio: 1/1;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    
+    .photo-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 206, 201, 0.4);
+    }
+    
+    .photo-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+    
+    .photo-card:hover img {
+        transform: scale(1.1);
+    }
+    
+    .photo-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+        padding: 20px;
+        transform: translateY(100%);
+        transition: transform 0.3s;
+    }
+    
+    .photo-card:hover .photo-overlay {
+        transform: translateY(0);
+    }
+    
+    .photo-overlay p {
+        margin: 0;
+        font-size: 1.1rem;
+        color: white;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+        .photo-grid {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+    }
+</style>
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>冰岛奇幻之旅</title>
+    <style>
+        /* 基础样式 */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            overflow-x: hidden;
+            background: linear-gradient(to bottom, #001528, #0a2e38);
+        }
+        
+        /* 导航栏 */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem 5rem;
+            align-items: center;
+            position: relative;
+            z-index: 100;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #fff, #7FB5D3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* 极光背景 */
+        .aurora-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+        
+        .aurora {
+            position: absolute;
+            height: 100%;
+            width: 200%;
+            background: linear-gradient(90deg, rgba(0,206,201,0) 0%, rgba(0,206,201,0.4) 50%, rgba(0,206,201,0) 100%);
+            animation: aurora-flow 15s infinite;
+            filter: blur(60px);
+        }
+        
+        @keyframes aurora-flow {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            100% { transform: translateX(0%) rotate(2deg); }
+        }
+        
+        /* 流星效果 */
+        .meteor {
+            position: fixed;
+            width: 300px;
+            height: 1px;
+            background: linear-gradient(to right, rgba(255,255,255,0), white);
+            transform-origin: left center;
+            animation: meteor-fall 3s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes meteor-fall {
+            0% { transform: rotate(45deg) translateX(0); opacity: 1; }
+            70% { opacity: 1; }
+            100% { transform: rotate(45deg) translateX(1000px); opacity: 0; }
+        }
+        
+        /* 下雪效果 */
+        .snowflake {
+            position: fixed;
+            background: white;
+            border-radius: 50%;
+            filter: blur(1px);
+            animation: fall linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes fall {
+            to { transform: translateY(100vh); }
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            position: relative;
+            z-index: 10;
+            padding: 50px 5%;
+        }
+        
+        /* 影片容器 */
+        .video-container {
+            max-width: 1000px;
+            margin: 50px auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 206, 201, 0.3);
+        }
+        
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 比例 */
+            height: 0;
+        }
+        
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .video-caption {
+            background: linear-gradient(to right, #02517C, #7FB5D3);
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .video-caption h2 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+            
+            .video-container {
+                margin: 20px 0;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 极光背景 -->
+    <div class="aurora-bg">
+        <div class="aurora" style="top: 20%; opacity: 0.8;"></div>
+        <div class="aurora" style="top: 40%; opacity: 0.6; animation-delay: -5s;"></div>
+        <div class="aurora" style="top: 60%; opacity: 0.4; animation-delay: -10s;"></div>
+    </div>
+    
+    <!-- 导航栏 -->
+    <nav>
+        <div class="logo">冰岛秘境</div>
+    </nav>
+    
+    <!-- 主内容区 -->
+    <div class="main-content">
+        <!-- 影片展示 -->
+        <div class="video-container">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/vzSHcyXfNPw?autoplay=0&mute=1&rel=0" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen></iframe>
+            </div>
+            <div class="video-caption">
+                <h2>冰岛官方4K宣传片</h2>
+                <p>探索冰与火之地的奇迹</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 创建流星
+        function createMeteors() {
+            for (let i = 0; i < 10; i++) {
+                const meteor = document.createElement('div');
+                meteor.className = 'meteor';
+                meteor.style.cssText = `
+                    top: ${Math.random() * 100}vh;
+                    left: ${Math.random() * 100}vw;
+                    animation-delay: ${Math.random() * 10}s;
+                    animation-duration: ${Math.random() * 3 + 2}s;
+                    width: ${Math.random() * 200 + 100}px;
+                `;
+                document.body.appendChild(meteor);
+            }
+        }
+        
+        // 创建雪花
+        function createSnow() {
+            const snowflakeCount = Math.min(80, window.innerWidth / 5);
+            
+            for (let i = 0; i < snowflakeCount; i++) {
+                const flake = document.createElement('div');
+                flake.className = 'snowflake';
+                flake.style.cssText = `
+                    left: ${Math.random() * 100}vw;
+                    top: -10px;
+                    width: ${Math.random() * 5 + 2}px;
+                    height: ${Math.random() * 5 + 2}px;
+                    animation-duration: ${Math.random() * 10 + 5}s;
+                    animation-delay: ${Math.random() * 5}s;
+                    opacity: ${Math.random() * 0.7 + 0.3};
+                `;
+                document.body.appendChild(flake);
+            }
+        }
+        
+        // 页面加载时初始化特效
+        window.onload = function() {
+            createMeteors();
+            createSnow();
+            
+            // 初始化极光位置
+            const auroras = document.querySelectorAll('.aurora');
+            auroras.forEach(aurora => {
+                aurora.style.left = `${Math.random() * 100}%`;
+                aurora.style.width = `${150 + Math.random() * 100}%`;
+            });
+        };
+        
+        // 窗口大小变化时重新调整雪花
+        window.addEventListener('resize', function() {
+            document.querySelectorAll('.snowflake').forEach(flake => flake.remove());
+            createSnow();
+        });
+    </script>
+</body>
+</html>
+
+
